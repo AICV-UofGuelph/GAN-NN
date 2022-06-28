@@ -216,10 +216,5 @@ class Generator(nn.Module):
         )
 
     def forward(self, x):
-        y = self.block1(x)
-        y = self.block2(y)
-        y = self.block3(y)
-        y = self.block4(y)
-        y = self.block5(y)
 
         return y
