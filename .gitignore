@@ -5,3 +5,5 @@
 /pycache*
 /local_backup*
 paths/*
+checkpoints/*
+
