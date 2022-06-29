@@ -4,3 +4,4 @@
 /env*
 /pycache*
 /local_backup*
+/checkpoints*
