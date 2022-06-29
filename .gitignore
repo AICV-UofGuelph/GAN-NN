@@ -2,3 +2,5 @@
 /dataset
 /logs*
 paths/*
+checkpoints/*
+__pycache__/
