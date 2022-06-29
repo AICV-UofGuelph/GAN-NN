@@ -7,8 +7,8 @@ import torch.optim as opt
 import torchvision
 from torch.utils.tensorboard import SummaryWriter
 
-from blitz.modules import BayesianConv2d
-from blitz.utils import variational_estimator
+# from blitz.modules import BayesianConv2d
+# from blitz.utils import variational_estimator
 
 
 
@@ -36,11 +36,11 @@ from blitz.utils import variational_estimator
     # Input already processed to desired form
 
 class Network():
-    def __init__(self, device='cpu'):
+    def __init__(self, noise_dim, img_channels, features, device='cpu'):
         self.device = device
 
-        self.disc = Discriminator(self.device)
-        self.gen = Generator(self.device)
+        # self.disc = Discriminator(img_channels, features, self.device)
+        # self.gen = Generator(noise_dim, img_channels, features, self.device)
         self.build()
 
         # TODO: Remove the following:
@@ -136,36 +136,36 @@ class Network():
 
 # @variational_estimator
 class Discriminator(nn.Module):
-    def __init__(self, device='cpu'):
+    def __init__(self, img_channels, features, device='cpu'):
         super(Discriminator, self).__init__()
 
-        FEATURES = 64
+        # FEATURES = 64
 
         self.block1 = nn.Sequential(
-            nn.Conv2d(1, FEATURES, kernel_size=4, stride=2, padding=1, device=device),
+            nn.Conv2d(img_channels, features, kernel_size=4, stride=2, padding=1, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block2 = nn.Sequential(
-            nn.Conv2d(FEATURES, FEATURES * 2, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 2, device=device),
+            nn.Conv2d(features, features * 2, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 2, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block3 = nn.Sequential(
-            nn.Conv2d(FEATURES * 2, FEATURES * 4, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 4, device=device),
+            nn.Conv2d(features * 2, features * 4, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 4, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block4 = nn.Sequential(
-            nn.Conv2d(FEATURES * 4, FEATURES * 8, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 8, device=device),
+            nn.Conv2d(features * 4, features * 8, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 8, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block5 = nn.Sequential(
-            nn.Conv2d(FEATURES * 8, 1, kernel_size=4, stride=2, padding=0, device=device), # convert to single channel
+            nn.Conv2d(features * 8, 1, kernel_size=4, stride=2, padding=0, device=device), # convert to single channel
             nn.AdaptiveAvgPool2d(1),    # pool the matrix into a single value for sigmoid
             nn.Sigmoid()
         )
@@ -182,39 +182,44 @@ class Discriminator(nn.Module):
 
 # @variational_estimator
 class Generator(nn.Module):
-    def __init__(self, device='cpu'):
+    def __init__(self, noise_dim, img_channels, features, device='cpu'):
         super(Generator, self).__init__()
 
-        FEATURES = 64
+        # FEATURES = 64
 
         self.block1 = nn.Sequential(
-            nn.ConvTranspose2d(100, FEATURES * 16, kernel_size=4, stride=1, padding=0, device=device),
+            nn.ConvTranspose2d(noise_dim, features * 16, kernel_size=4, stride=1, padding=0, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block2 = nn.Sequential(
-            nn.ConvTranspose2d(FEATURES * 16, FEATURES * 8, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 8, device=device),
+            nn.ConvTranspose2d(features * 16, features * 8, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 8, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block3 = nn.Sequential(
-            nn.ConvTranspose2d(FEATURES * 8, FEATURES * 4, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 4, device=device),
+            nn.ConvTranspose2d(features * 8, features * 4, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 4, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block4 = nn.Sequential(
-            nn.ConvTranspose2d(FEATURES * 4, FEATURES * 2, kernel_size=4, stride=2, padding=1, bias=False, device=device),
-            nn.BatchNorm2d(FEATURES * 2, device=device),
+            nn.ConvTranspose2d(features * 4, features * 2, kernel_size=4, stride=2, padding=1, bias=False, device=device),
+            nn.BatchNorm2d(features * 2, device=device),
             nn.LeakyReLU(0.2)
         )
 
         self.block5 = nn.Sequential(
-            nn.ConvTranspose2d(FEATURES * 2, 1, kernel_size=4, stride=2, padding=1, device=device),
+            nn.ConvTranspose2d(features * 2, img_channels, kernel_size=4, stride=2, padding=1, device=device),
             nn.Tanh()
         )
 
     def forward(self, x):
-
+        y = self.block1(x)
+        y = self.block2(y)
+        y = self.block3(y)
+        y = self.block4(y)
+        y = self.block5(y)
+    
         return y
