@@ -4,6 +4,7 @@
 /env*
 /pycache*
 /local_backup*
+/checkpoints*
 paths/*
 checkpoints/*
 __pycache__/
