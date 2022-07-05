@@ -6,3 +6,4 @@
 /local_backup*
 paths/*
 /__pycache__*
+checkpoints/*
