@@ -14,7 +14,7 @@ Takes path data output from GAN generators and sorts/smoothens it into path data
 
 ## Changing Variables
 
-Go to start of cell 2 to alter:
+Constants (cell 2):
 - ```MAP_NAME```: Map file name (without extension).
 
 
@@ -209,7 +209,7 @@ Provides code that can be implemented into GAN programs for hyperparameter sweep
 
 ## Changing Variables
 
-General constants (cell 2):
+Constants (cell 2):
 - ```MAP_NAME```: Map file name (without extension).
 - ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
 - ```MAX_DATA_POINTS```: Maximum number of times data will be updated on TensorBoard throughout training.
