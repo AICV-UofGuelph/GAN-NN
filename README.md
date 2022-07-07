@@ -40,26 +40,6 @@ Go to start of cell 2 to alter:
 
 
 
-# point_generator.ipynb
-
-## Purpose
-
-<!-- short description of what program does -->
-
-<!-- input/output pictures -->
-
-## Steps
-
-<!-- 1. Describe setup -->
-<!-- 2. Start Python 3.9 kernel. -->
-<!-- 3. Run file. -->
-
-## Changing Variables
-
-<!-- list variables; location in code/what they represent -->
-
-
-
 # rounded-Conditional_GAN.ipynb
 
 ## Purpose
