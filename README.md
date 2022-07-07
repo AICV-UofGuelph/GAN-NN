@@ -169,7 +169,7 @@ First implemented GAN. Trains on pre-generated path data and attempts to output 
 
 ## Steps
 
-1. Put the map file you want to use in the 'data/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
 2. Update sweep parameters as desired (see next section).
 3. Start Python 3.9 kernel.
 4. Run file.
