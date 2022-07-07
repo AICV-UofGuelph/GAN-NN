@@ -214,7 +214,7 @@ Provides code that can be implemented into GAN programs for hyperparameter sweep
 2. Update sweep parameters as desired (see next section).
 3. Start Python 3.9 kernel.
 4. Run file.
-5. Use TensorBoard to analyze hyperparameter sweep.
+5. Use TensorBoard to analyze hyperparameter sweep (```$ tensorboard --logdir [path to DATA_DIR]``` in terminal).
 
 ## Changing Variables
 
