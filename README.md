@@ -123,19 +123,36 @@ Constants (cell 2):
 
 ## Purpose
 
-<!-- short description of what program does -->
+First version of a Wasserstein GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
 ## Steps
 
-<!-- 1. Describe setup -->
-<!-- 2. Start Python 3.9 kernel. -->
-<!-- 3. Run file. -->
+1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+2. Update hyperparameter and WGAN-specific constants as desired (see next section).
+3. Start Python 3.9 kernel.
+4. Run file.
 
 ## Changing Variables
 
-<!-- list variables; location in code/what they represent -->
+Map constants (cell 3):
+- ```MAP_NAME```: Map file name (without extension).
+- ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Hyperparameter constants (cell 3):
+- ```FEATURES_GEN```: Feature number for the Generator.
+- ```FEATURES_DISC```: Feature number for the Critic.
+- ```NOISE_DIM```: Dimensions of input noise for Generator.
+- ```NOISE_SHAPE```: Array containing shape of input noise for Generator.
+- ```IMG_CHANNELS```: Number of image channels for both Generator and Critic.
+- ```LEARNING_RATE```: Learning rate for both Generator and Critic.
+- ```BATCH_SIZE```: Batch size used during training.
+- ```NUM_EPOCHS```: Number of epochs used during training.
+
+WGAN-specific constants (cell 3):
+- ```WEIGHT_CLIP```: C parameter from WGAN paper (idk what it does).
+- ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
 
 
 
@@ -143,7 +160,7 @@ Constants (cell 2):
 
 ## Purpose
 
-First implemented Deep Convolutional GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
+First version of a Deep Convolutional GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
@@ -181,7 +198,7 @@ Sweep parameters (cell 3):
 
 ## Purpose
 
-First implemented GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
+First version of a General GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
