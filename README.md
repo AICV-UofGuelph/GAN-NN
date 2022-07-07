@@ -63,19 +63,44 @@ Constants (cell 2):
 
 ## Purpose
 
-<!-- short description of what program does -->
+First version of a Conditional WGAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
 ## Steps
 
-<!-- 1. Describe setup -->
-<!-- 2. Start Python 3.9 kernel. -->
-<!-- 3. Run file. -->
+1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+2. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
+3. Update loading variables as desired (see next section).
+4. Start Python 3.9 kernel.
+5. Run file.
 
 ## Changing Variables
 
-<!-- list variables; location in code/what they represent -->
+Map constants (cell 2):
+- ```MAP_NAME```: Map file name (without extension).
+- ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Hyperparameter constants (cell 2):
+- ```FEATURES_GEN```: Feature number for the Generator.
+- ```FEATURES_DISC```: Feature number for the Critic.
+- ```NOISE_DIM```: Dimensions of input noise for Generator.
+- ```IMG_CHANNELS```: Number of image channels for both Generator and Critic.
+- ```IMAGE_SIZE```: Size of image for both Generator and Critic.
+- ```LEARNING_RATE```: Learning rate for both Generator and Critic.
+- ```BATCH_SIZE```: Batch size used during training.
+- ```NUM_EPOCHS```: Number of epochs used during training.
+
+Conditional GAN-specific constants (cell 2):
+- ```NUM_CLASSES```: Number of different types of generated data.
+- ```GEN_EMBEDDING```: Size of embedding that will be added to Generator's noise input.
+
+WGAN-specific constants (cell 2):
+- ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
+- ```LAMBDA_GP```: (?).
+
+Loading variables (cell 2):
+- ```epoch_loaded```: Determines if previously saved GAN will be loaded.
 
 
 
@@ -259,3 +284,9 @@ Sweep parameters (cell 3):
 - ```lr_disc```: Learning rate for the Discriminator.
 - ```batch_size```: Batch size used during training.
 - ```num_epochs```: Number of epochs used during training.
+
+
+
+# Notes
+- Currently the most effective GAN for path generation is the Wasserstein GAN.
+- We are working on generalizing the WGAN so it works for a variety of start/goal points.
