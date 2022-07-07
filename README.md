@@ -20,7 +20,6 @@ Constants (cell 2):
 
 
 
-
 # multiple_condition_GAN.ipynb
 
 ## Purpose
@@ -32,10 +31,11 @@ Version of a Conditional WGAN with 3 different classes. Trains on pre-generated 
 ## Steps
 
 1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
-2. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
-3. Update loading variables as desired (see next section).
-4. Start Python 3.9 kernel.
-5. Run file.
+2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
+3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
+4. Update loading variables as desired (see next section).
+5. Start Python 3.9 kernel.
+6. Run file.
 
 ## Changing Variables
 
@@ -63,7 +63,6 @@ WGAN-specific constants (cell 2):
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
-
 
 
 
@@ -79,10 +78,11 @@ Version of Conditional WGAN that uses rounded generated path data to update the 
 ## Steps
 
 1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
-2. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
-3. Update loading variables as desired (see next section).
-4. Start Python 3.9 kernel.
-5. Run file.
+2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
+3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
+4. Update loading variables as desired (see next section).
+5. Start Python 3.9 kernel.
+6. Run file.
 
 ## Changing Variables
 
@@ -110,7 +110,6 @@ WGAN-specific constants (cell 2):
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
-
 
 
 
@@ -126,10 +125,11 @@ First version of a Conditional WGAN. Trains on pre-generated path data and attem
 ## Steps
 
 1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
-2. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
-3. Update loading variables as desired (see next section).
-4. Start Python 3.9 kernel.
-5. Run file.
+2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
+3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
+4. Update loading variables as desired (see next section).
+5. Start Python 3.9 kernel.
+6. Run file.
 
 ## Changing Variables
 
@@ -157,7 +157,6 @@ WGAN-specific constants (cell 2):
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
-
 
 
 
@@ -183,7 +182,6 @@ Loading variables (cell 2):
 
 
 
-
 # simple-WGAN-GP.ipynb
 
 ## Purpose
@@ -201,7 +199,6 @@ Loading variables (cell 2):
 ## Changing Variables
 
 <!-- list variables; location in code/what they represent -->
-
 
 
 
@@ -240,7 +237,6 @@ Hyperparameter constants (cell 3):
 WGAN-specific constants (cell 3):
 - ```WEIGHT_CLIP```: C parameter from WGAN paper (idk what it does).
 - ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
-
 
 
 
@@ -284,7 +280,6 @@ Sweep parameters (cell 3):
 
 
 
-
 # simple-GAN.ipynb
 
 ## Purpose
@@ -312,7 +307,6 @@ Sweep parameters (cell 3):
 - ```lr```: Learning rate for both Generator and Discriminator.
 - ```batch_size```: Batch size used during training.
 - ```num_epochs```: Number of epochs used during training.
-
 
 
 
@@ -352,7 +346,6 @@ Sweep parameters (cell 3):
 - ```lr_disc```: Learning rate for the Discriminator.
 - ```batch_size```: Batch size used during training.
 - ```num_epochs```: Number of epochs used during training.
-
 
 
 
