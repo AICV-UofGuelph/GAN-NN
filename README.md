@@ -8,10 +8,9 @@ Takes path data output from GAN generators and sorts/smoothens it into path data
 
 ## Steps
 
-1. Put the map file you want to use in the 'data/' folder.
-2. Change variables in file (see next section).
-3. Start Python 3.9 kernel.
-4. Run file.
+1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME``` variable accordingly (see next section).
+2. Start Python 3.9 kernel.
+3. Run file.
 
 ## Changing Variables
 
@@ -164,19 +163,29 @@ Go to start of cell 2 to alter:
 
 ## Purpose
 
-<!-- short description of what program does -->
+First implemented GAN. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
 ## Steps
 
-<!-- 1. Describe setup -->
-<!-- 2. Start Python 3.9 kernel. -->
-<!-- 3. Run file. -->
+1. Put the map file you want to use in the 'data/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+2. Update sweep parameters as desired (see next section).
+3. Start Python 3.9 kernel.
+4. Run file.
 
 ## Changing Variables
 
-<!-- list variables; location in code/what they represent -->
+Constants (cell 3):
+- ```MAP_NAME```: Map file name (without extension).
+- ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Sweep parameters (cell 3):
+- ```gen_nodes```: Number of nodes in the Generator.
+- ```disc_nodes```: Number of nodes in the Discrminator.
+- ```lr```: Learning rate for both Generator and Discriminator.
+- ```batch_size```: Batch size used during training.
+- ```num_epochs```: Number of epochs used during training.
 
 
 
@@ -190,11 +199,13 @@ Provides code that can be implemented into GAN programs for hyperparameter sweep
 
 ## Steps
 
-1. Create directory to save TensorBoard data in, update ```DATA_DIR``` variable accordingly (see next section).
-2. Update sweep parameters as desired (see next section).
-3. Start Python 3.9 kernel.
-4. Run file.
-5. Use TensorBoard to analyze hyperparameter sweep (```$ tensorboard --logdir [path to DATA_DIR]``` in terminal).
+1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+2. Create directory to save TensorBoard data in, update ```DATA_DIR``` variable accordingly (see next section).
+3. Update sweep parameters as desired (see next section).
+4. Start Python 3.9 kernel.
+5. Run file.
+6. Use TensorBoard to analyze hyperparameter sweep.
+    - ```$ tensorboard --logdir [path to DATA_DIR]``` in terminal
 
 ## Changing Variables
 
