@@ -19,6 +19,8 @@ Constants (cell 2):
 
 
 
+
+
 # multiple_condition_GAN.ipynb
 
 ## Purpose
@@ -61,6 +63,8 @@ WGAN-specific constants (cell 2):
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
+
+
 
 
 
@@ -109,6 +113,8 @@ Loading variables (cell 2):
 
 
 
+
+
 # simple-Conditional_GAN.ipynb
 
 ## Purpose
@@ -154,6 +160,8 @@ Loading variables (cell 2):
 
 
 
+
+
 # simple-WGAN-GP-V2.ipynb
 
 ## Purpose
@@ -174,6 +182,8 @@ Loading variables (cell 2):
 
 
 
+
+
 # simple-WGAN-GP.ipynb
 
 ## Purpose
@@ -191,6 +201,8 @@ Loading variables (cell 2):
 ## Changing Variables
 
 <!-- list variables; location in code/what they represent -->
+
+
 
 
 
@@ -228,6 +240,8 @@ Hyperparameter constants (cell 3):
 WGAN-specific constants (cell 3):
 - ```WEIGHT_CLIP```: C parameter from WGAN paper (idk what it does).
 - ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
+
+
 
 
 
@@ -269,6 +283,8 @@ Sweep parameters (cell 3):
 
 
 
+
+
 # simple-GAN.ipynb
 
 ## Purpose
@@ -296,6 +312,8 @@ Sweep parameters (cell 3):
 - ```lr```: Learning rate for both Generator and Discriminator.
 - ```batch_size```: Batch size used during training.
 - ```num_epochs```: Number of epochs used during training.
+
+
 
 
 
@@ -334,6 +352,8 @@ Sweep parameters (cell 3):
 - ```lr_disc```: Learning rate for the Discriminator.
 - ```batch_size```: Batch size used during training.
 - ```num_epochs```: Number of epochs used during training.
+
+
 
 
 
