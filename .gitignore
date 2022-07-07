@@ -1,10 +1,6 @@
-/data
-/dataset
-/logs*
 /env*
-/pycache*
-/local_backup*
 /checkpoints*
-paths/*
-checkpoints/*
-__pycache__/
+/logs*
+/paths*
+/local_backup*
+/__pycache__*
