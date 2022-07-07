@@ -8,7 +8,7 @@ Takes path data output from GAN generators and sorts/smoothens it into path data
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME``` variable accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Start Python 3.9 kernel.
 3. Run file.
 
@@ -30,7 +30,7 @@ Version of a Conditional WGAN with 3 different classes. Trains on pre-generated 
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
 3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
 4. Update loading variables as desired (see next section).
@@ -59,7 +59,7 @@ Conditional GAN-specific constants (cell 2):
 
 WGAN-specific constants (cell 2):
 - ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
-- ```LAMBDA_GP```: (?).
+- ```LAMBDA_GP```: Value of gradient penalty.
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
@@ -77,7 +77,7 @@ Version of Conditional WGAN that uses rounded generated path data to update the 
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
 3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
 4. Update loading variables as desired (see next section).
@@ -106,7 +106,7 @@ Conditional GAN-specific constants (cell 2):
 
 WGAN-specific constants (cell 2):
 - ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
-- ```LAMBDA_GP```: (?).
+- ```LAMBDA_GP```: Value of gradient penalty.
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
@@ -124,7 +124,7 @@ First version of a Conditional WGAN. Trains on pre-generated path data and attem
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Ensure existence of 'checkpoints/conditional/generator/' and 'checkpoints/conditional/discriminator/' folders. 
 3. Update hyperparameter, conditional GAN-specific, and WGAN-specific constants as desired (see next section).
 4. Update loading variables as desired (see next section).
@@ -153,7 +153,7 @@ Conditional GAN-specific constants (cell 2):
 
 WGAN-specific constants (cell 2):
 - ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
-- ```LAMBDA_GP```: (?).
+- ```LAMBDA_GP```: Value of gradient penalty.
 
 Loading variables (cell 2):
 - ```epoch_loaded```: Determines if previously saved GAN will be loaded.
@@ -186,19 +186,36 @@ Loading variables (cell 2):
 
 ## Purpose
 
-<!-- short description of what program does -->
+Version of a Wasserstein GAN with gradient penalty. Trains on pre-generated path data and attempts to output a map with a newly generated path overlayed.
 
 <!-- input/output pictures -->
 
 ## Steps
 
-<!-- 1. Describe setup -->
-<!-- 2. Start Python 3.9 kernel. -->
-<!-- 3. Run file. -->
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
+2. Update hyperparameter and WGAN-specific constants as desired (see next section).
+3. Start Python 3.9 kernel.
+4. Run file.
 
 ## Changing Variables
 
-<!-- list variables; location in code/what they represent -->
+Map constants (cell 3):
+- ```MAP_NAME```: Map file name (without extension).
+- ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Hyperparameter constants (cell 3):
+- ```FEATURES_GEN```: Feature number for the Generator.
+- ```FEATURES_DISC```: Feature number for the Critic.
+- ```NOISE_DIM```: Dimensions of input noise for Generator.
+- ```NOISE_SHAPE```: Array containing shape of input noise for Generator.
+- ```IMG_CHANNELS```: Number of image channels for both Generator and Critic.
+- ```LEARNING_RATE```: Learning rate for both Generator and Critic.
+- ```BATCH_SIZE```: Batch size used during training.
+- ```NUM_EPOCHS```: Number of epochs used during training.
+
+WGAN-specific constants (cell 3):
+- ```CRITIC_ITERATIONS```: Number of times the Critic loop runs for each Generator loop.
+- ```LAMBDA_GP```: Value of gradient penalty.
 
 
 
@@ -213,7 +230,7 @@ First version of a Wasserstein GAN. Trains on pre-generated path data and attemp
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Update hyperparameter and WGAN-specific constants as desired (see next section).
 3. Start Python 3.9 kernel.
 4. Run file.
@@ -251,8 +268,8 @@ First version of a Deep Convolutional GAN. Trains on pre-generated path data and
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
-2. Update constants as desired (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
+2. Update other constants as desired (see next section).
 3. Update sweep parameters as desired (see next section).
 4. Start Python 3.9 kernel.
 5. Run file.
@@ -261,9 +278,11 @@ First version of a Deep Convolutional GAN. Trains on pre-generated path data and
 
 ## Changing Variables
 
-Constants (cell 2):
+Map constants (cell 2):
 - ```MAP_NAME```: Map file name (without extension).
 - ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Other constants (cell 2):
 - ```IMG_CHANNELS```: Number of image channels for both Generator and Discriminator.
 - ```MAX_DATA_POINTS```: Maximum number of times scalar data will be updated on TensorBoard throughout training.
 - ```MAX_IMG_DATA```: Maximum number of times image data will be updated on TensorBoard throughout training.
@@ -290,14 +309,14 @@ First version of a General GAN. Trains on pre-generated path data and attempts t
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
 2. Update sweep parameters as desired (see next section).
 3. Start Python 3.9 kernel.
 4. Run file.
 
 ## Changing Variables
 
-Constants (cell 3):
+Map constants (cell 3):
 - ```MAP_NAME```: Map file name (without extension).
 - ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
 
@@ -321,9 +340,9 @@ Provides code that can be implemented into GAN programs for hyperparameter sweep
 
 ## Steps
 
-1. Put the map file you want to use in the 'env/' folder, update ```MAP_NAME```, ```MAP_DIMS``` variables accordingly (see next section).
-2. Create directory to save TensorBoard data in, update ```DATA_DIR``` variable accordingly (see next section).
-3. Update constants as desired (see next section).
+1. Put the map file you want to use in the 'env/' folder, update map constants accordingly (see next section).
+2. Create directory to save TensorBoard data in, update ```DATA_DIR``` constant accordingly (see next section).
+3. Update other constants as desired (see next section).
 4. Update sweep parameters as desired (see next section).
 5. Start Python 3.9 kernel.
 6. Run file.
@@ -332,9 +351,11 @@ Provides code that can be implemented into GAN programs for hyperparameter sweep
 
 ## Changing Variables
 
-Constants (cell 2):
+Map constants (cell 2):
 - ```MAP_NAME```: Map file name (without extension).
 - ```MAP_DIMS```: Dimensions of map (note that these can be found on the first line of the map file).
+
+Other constants (cell 2):
 - ```MAX_DATA_POINTS```: Maximum number of times data will be updated on TensorBoard throughout training.
 - ```DATA_DIR```: Name of directory that TensorBoard data will be saved in.
 
