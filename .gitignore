@@ -4,3 +4,6 @@
 /paths*
 /local_backup*
 /__pycache__*
+/data/*
+/dataset/*
+/output/*
