@@ -8,3 +8,4 @@
 paths/*
 checkpoints/*
 __pycache__/
+wandb*
