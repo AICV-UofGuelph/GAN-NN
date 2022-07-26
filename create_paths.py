@@ -45,7 +45,10 @@ def smoothen(path, loops):
 
     return new_path
 
-def smoothen_paths(paths, start, goal, smooth_val=5, save=True, display=True):
+def smoothen_paths(paths, start, goal, smooth_val=5, figsize=(7.5,7.5), save=True, display=True):
+
+    new_paths = []
+
     if save:
         dir_name = "smoothened_paths/"
         if not os.path.exists(dir_name):                                    # if path folder for this map doesn't exist, create it
@@ -61,7 +64,7 @@ def smoothen_paths(paths, start, goal, smooth_val=5, save=True, display=True):
 
         if display:
             # displaying path data:
-            plt.figure(figsize=(7.5,7.5))
+            plt.figure(figsize=figsize)
             plt.imshow(paths[i])
             plt.plot(path_coords[:, 1], path_coords[:, 0], c='r')
             plt.plot(new_path_coords[:, 1], new_path_coords[:, 0], c='g', linewidth=5)
@@ -71,3 +74,7 @@ def smoothen_paths(paths, start, goal, smooth_val=5, save=True, display=True):
             # flatten + write path to file:
             flat_path = new_path_coords.flatten()      # flipped so start point is at front of file, end point is at end of file
             np.savetxt(f"{dir_name}path_{i}.txt", flat_path, fmt='%d') 
+
+        new_paths.append(new_path_coords)
+
+    return new_paths
