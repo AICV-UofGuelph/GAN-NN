@@ -1,3 +1,30 @@
+# create_paths.py
+
+## Purpose
+
+Contains ```smoothen_paths()``` function which takes path data output from GAN generators and sorts/smoothens it into path data that can be used to create waypoints.
+
+<!-- input/output pictures -->
+
+## Using ```smoothen_paths()``` Function
+
+### Steps
+
+1. Import function to any file by adding ```from create_paths import smoothen_paths``` at the beginning of your code.
+2. Use fucntion as desired in file.
+
+### Parameters
+
+- ```paths```: Array of path output data from a neural network (each path should be an array containing floats ranging from -1 to 1 and should be the same shape as the map it was created for).
+- ```start```: [sx, sy] - Coordinates of path's intended start point.
+- ```goal```: [gx, gy] - Coordinates of path's intended end point.
+- ```smooth_val```: Int - Number of times each path's coordinate values are averaged out (higher = smoother paths).
+- ```save```: Boolean - Determines if smoothened paths are saved or not (if True, paths will be saved in 'smoothened_paths/' folder).
+- ```display```: Boolean - Determines if original and smoothened paths are displayed (using pyplot).
+
+
+
+
 # create_paths.ipynb
 
 ## Purpose
@@ -16,6 +43,9 @@ Takes path data output from GAN generators and sorts/smoothens it into path data
 
 Constants (cell 2):
 - ```MAP_NAME```: Map file name (without extension).
+- ```GOAL```: [sx, sy] - Coordinates of each loaded path's intended start point.
+- ```START```: [gx, gy] - Coordinates of each loaded path's intended end point.
+- ```NUM_PATHS```: Number of paths that will be loaded.
 
 
 
