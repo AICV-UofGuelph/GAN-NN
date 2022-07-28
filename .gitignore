@@ -1,4 +1,6 @@
-/datasets/*
+/data
+/datasets*
+/logs*
 /env*
 /checkpoints*
 /logs*
