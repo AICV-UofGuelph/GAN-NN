@@ -45,29 +45,38 @@ def smoothen(path, loops):
 
     return new_path
 
-def smoothen_paths(paths, start, goal, smooth_val=5, save=True, display=True):
+def smoothen_paths(paths, start, goal, smooth_val=5, figsize=(7.5,7.5), save=False, display=False):
+
+    new_paths = []
+
     if save:
         dir_name = "smoothened_paths/"
         if not os.path.exists(dir_name):                                    # if path folder for this map doesn't exist, create it
             os.mkdir(dir_name)
 
-    for i in range(len(paths)):
+    for i in range(paths.shape[0]):
 
         # getting path data from GAN output:
         paths[i] = np.round(paths[i])
-        path_coords = np.argwhere(paths[i]==1)
+        path_coords = np.nonzero(paths[i]==1)
         path_coords = sort_data(path_coords, start, goal)
         new_path_coords = smoothen(path_coords, smooth_val)
-
-        if display:
-            # displaying path data:
-            plt.figure(figsize=(7.5,7.5))
-            plt.imshow(paths[i])
-            plt.plot(path_coords[:, 1], path_coords[:, 0], c='r')
-            plt.plot(new_path_coords[:, 1], new_path_coords[:, 0], c='g', linewidth=5)
-            plt.show()
 
         if save:
             # flatten + write path to file:
             flat_path = new_path_coords.flatten()      # flipped so start point is at front of file, end point is at end of file
             np.savetxt(f"{dir_name}path_{i}.txt", flat_path, fmt='%d') 
+
+        if display:
+            # displaying path data:
+            plt.figure(figsize=figsize)
+            plt.imshow(paths[i])
+            plt.plot(path_coords[:, 1], path_coords[:, 0], c='r')
+            plt.plot(new_path_coords[:, 1], new_path_coords[:, 0], c='g', linewidth=5)
+            plt.show()
+
+        new_paths.append(new_path_coords)
+
+
+
+    return new_paths
