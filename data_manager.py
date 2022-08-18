@@ -1,9 +1,11 @@
-import os
+import os, shutil
 import numpy as np
 import torch
 import skfmm
+import pickle
 
 INPUTS_DIR = 'datasets'
+CHKPT_DIR = 'checkpoints'
 
 # ASSUME: all maps in subset have same dimensions
 
@@ -14,22 +16,18 @@ def load_paths(paths_dir, map_shape=None):
     if not os.path.isdir(paths_dir):
         return None
 
-    # If map shape is None, create list of ndarrays containing a series of coordinates, else put the paths in matrix form
-    if map_shape == None:
-        loaded = []
-    else:
-        loaded = np.empty((0,0,0,0))
+    loaded = []
 
     paths = os.scandir(paths_dir)
     for item in paths:
         # Load the paths from the files
         path = np.loadtxt(item)
+        if len(path.shape) == 1:
+            path = np.asarray(path, dtype=int).reshape(len(path)//2,2) #unflatten the path from the file
 
-        if map_shape == None:
-            # add the path to the list
-            loaded.append(path)
-        else:
-            # Convert the path to a matrix (and create the endpoints matrix)
+
+        # if no map shape provided, load paths as arrays of coordinates
+        if map_shape != None:
             path_mat = np.zeros(map_shape)
             end_mat = np.zeros(map_shape)
 
@@ -145,11 +143,11 @@ def load_paths(paths_dir, map_shape=None):
                     y += y_dir
 
             # Combine the two matrices
-            path_mat = path_mat[np.newaxis, np.newaxis,:,:]
-            end_mat = end_mat[np.newaxis, np.newaxis,:,:]
-            path = np.concatenate((path_mat, end_mat), axis=1)
+            path_mat = path_mat[np.newaxis,:,:]
+            end_mat = end_mat[np.newaxis,:,:]
+            path = np.concatenate((path_mat, end_mat), axis=0)
 
-            loaded = np.concatenate((loaded, path), axis=0)
+        loaded.append(path)
 
     return loaded
 
@@ -167,12 +165,12 @@ def load_map(map_file, sdf=False):
         obs_map[obs_map == 0] = 1
         obs_map = skfmm.distance(obs_map, dx = 0.1)
     
-    obs_map = obs_map[np.newaxis, np.newaxis, :, :]
+    obs_map = obs_map[:, :]
 
     return obs_map
 
 def load_input(dataset, subset):
-    loaded = np.empty((0,0,0,0))
+    loaded = []
 
     set_dir = os.path.join(os.getcwd(), INPUTS_DIR, dataset, subset) # Open subset directory
     if not os.path.isdir(set_dir):
@@ -185,24 +183,42 @@ def load_input(dataset, subset):
             obs_map = load_map(os.path.join(item.path, f'{item.name}.txt'), sdf=True)
             paths = load_paths(os.path.join(item.path, 'paths'), obs_map.shape)
 
-            obs_map = np.repeat(obs_map, paths.shape[0], axis=0)
-            paths = np.concatenate((paths, obs_map), axis=1)
+            for i in range(len(paths)):
+                path = np.concatenate((paths[i], obs_map[np.newaxis, :, :]), axis=0)
+                path = torch.tensor(path, dtype=torch.float)
+                loaded.append(path)
 
-            loaded = np.concatenate((loaded, paths), axis=0)
-
-    return torch.tensor(loaded)
+    return loaded
 
 
 
 
 # TODO: method for loading trained models
+def load_gan():
+    print("TODO: load_gan()")
+
 def load_checkpoint():
     print("TODO: load_checkpoint()")
 
 # TODO: method for saving model class definitions
-def save_gan():
-    print("TODO: save_gan()")
+def save_gan(run_name, config):
+    save_dir = os.path.join(os.getcwd(), CHKPT_DIR, run_name)
+    if not os.path.isdir(save_dir):
+        os.makedirs(save_dir)
 
-# TODO: method for saving checkpoints
-def save_checkpoint():
-    print("TODO: save_checkpoint()")
+    # Save model structure and hyperparams
+    shutil.copy(os.path.join(os.getcwd(), 'GAN.py'), os.path.join(save_dir, 'GAN.py'))
+    torch.save(config, os.path.join(save_dir, 'hparams.pkl'))
+
+def save_checkpoint(run_name, step, gen, crit):
+    # Navigate to destination directory
+    save_path = os.path.join(os.getcwd(), CHKPT_DIR, run_name, 'cp')
+    if not os.path.isdir(save_path):
+        os.makedirs(save_path)
+    save_path = os.path.join(save_path, f'{step}.tar')
+
+    torch.save({
+        'gen': gen.state_dict(),
+        'crit': crit.state_dict()},
+        save_path
+    )
