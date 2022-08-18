@@ -18,9 +18,6 @@ Creates and trains a Wasserstein GAN with gradient penalty. Trains on pre-genera
 ### NOT SURE WHERE TO PUT THESE
 - ```DATASET```: [String] The dataset to load
 - ```SUBSET```: [String] The subset to load (e.g. training, evaluation)
-- PROJECT_NAME (for WandB)?
-- ENTITY (for WandB)?
-- GROUP (for WandB)?
 
 ### Critic Structure
 - ```NUM_LAYERS_CRIT```: [int] Number of layers in the critic
