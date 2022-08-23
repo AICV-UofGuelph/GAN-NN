@@ -1,8 +1,10 @@
-import os, shutil
+import os
+import shutil
+import importlib.util
+import sys
 import numpy as np
 import torch
 import skfmm
-import pickle
 
 INPUTS_DIR = 'datasets'
 CHKPT_DIR = 'checkpoints'
@@ -191,16 +193,31 @@ def load_input(dataset, subset):
     return loaded
 
 
+def load_gan(run_name):
+    run_dir = os.path.join(os.getcwd(), CHKPT_DIR, run_name)
+    if not os.path.isfile(os.path.join(run_dir, 'GAN.py')):
+        return None
+    elif not os.path.isfile(os.path.join(run_dir, 'hparams.pkl')):
+        return None
+
+    # From https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly
+    spec = importlib.util.spec_from_file_location('GAN', os.path.join(run_dir, 'GAN.py'))
+    module = importlib.util.module_from_spec(spec)
+    sys.modules['GANdefs'] = module
+    spec.loader.exec_module(module)
+
+    config = torch.load(os.path.join(run_dir, 'hparams.pkl'))
+    return config
+
+def load_checkpoint(run_name, step_num):
+    cp_file = os.path.join(os.getcwd(), CHKPT_DIR, run_name, 'cp', f'{step_num}.tar')
+    if not os.path.isfile(cp_file):
+        return None
+    
+    states = torch.load(cp_file)
+    return states
 
 
-# TODO: method for loading trained models
-def load_gan():
-    print("TODO: load_gan()")
-
-def load_checkpoint():
-    print("TODO: load_checkpoint()")
-
-# TODO: method for saving model class definitions
 def save_gan(run_name, config):
     save_dir = os.path.join(os.getcwd(), CHKPT_DIR, run_name)
     if not os.path.isdir(save_dir):
