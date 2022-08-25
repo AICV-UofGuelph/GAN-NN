@@ -9,3 +9,4 @@
 /output/*
 /smoothened_paths*
 /wandb*
+datasets/*
