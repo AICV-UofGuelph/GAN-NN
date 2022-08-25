@@ -1,6 +1,10 @@
 import os, math
 import numpy as np
+import torch
 import matplotlib.pyplot as plt
+
+
+# SMOOTHENING PATH FUNCTIONS:
 
 def sort_data(path, start, goal):
 
@@ -30,6 +34,7 @@ def sort_data(path, start, goal):
 
     return np.asarray(sorted_path)
 
+
 def smoothen(path, loops):
     new_path = path.astype(float)
 
@@ -44,6 +49,7 @@ def smoothen(path, loops):
         path = new_path
 
     return new_path
+
 
 def smoothen_paths(paths, start, goal, smooth_val=5, figsize=(7.5,7.5), save=False, display=False):
 
@@ -77,6 +83,89 @@ def smoothen_paths(paths, start, goal, smooth_val=5, figsize=(7.5,7.5), save=Fal
 
         new_paths.append(new_path_coords)
 
-
-
     return new_paths
+
+
+# VERIFYING PATH FUNCTIONS:
+
+def check_if_avoids_obstacles(xs, ys, map, check_dis=0.5):
+
+    # create obstacle_coords array:
+    obstacle_coords = torch.fliplr(torch.nonzero(torch.tensor(map))).tolist()
+
+    # check if any points are on an obstacle or if any paths connecting points crosses an obstacle:
+    radius_of_obs = 0.5
+
+    for idx in range(len(xs)):
+        if idx == len(xs)-1:            # checking final point
+            if not check_btw_points([xs[idx],ys[idx]], [xs[idx],ys[idx]], check_dis, obstacle_coords, radius_of_obs):
+                # print("Path intersects obstacles.")
+                return 0
+        else:                           # checking all other points
+            if not check_btw_points([xs[idx],ys[idx]], [xs[idx+1],ys[idx+1]], check_dis, obstacle_coords, radius_of_obs):
+                # print("Path intersects obstacles.")
+                return 0
+
+    return 1 # if none of the prev conditions are met, return 1 (path does not cross an obstacle)
+
+
+def check_btw_points(p1, p2, step, obstacle_coords, radius_of_obs, test=False):
+    dis_btw_points = calc_distance(p1,p2)
+    
+    num_points_to_check = dis_btw_points/step
+    if num_points_to_check == 0:
+        num_points_to_check = 1
+
+    if p2[0]-p1[0] != 0:            # if there is a difference in the x-axis
+        
+        coord_step = (p2[0]-p1[0])/num_points_to_check
+        m,b = make_eq(p1, p2)
+
+        for x in np.arange(p1[0], p2[0], coord_step):
+            y = m*x + b
+
+            if not detailed_check([x,y], obstacle_coords, radius_of_obs):
+                return 0
+    
+    elif p2[1]-p1[1] != 0:          # if there is a difference in the y-axis (i.e. path with undefined slope)
+        
+        coord_step = (p2[1]-p1[1])/num_points_to_check
+
+        for y in np.arange(p1[1], p2[1], coord_step):
+            x = p1[0]
+
+            if not detailed_check([x,y], obstacle_coords, radius_of_obs):
+                return 0
+
+    else:                           # if there is no difference in either x or y axises (i.e. the same point)
+        if not detailed_check(p1, obstacle_coords, radius_of_obs):
+            return 0
+
+    return 1
+
+
+def detailed_check(point, obstacle_coords, radius_of_obs):
+    max_obstacle_dis = math.sqrt(radius_of_obs**2 + radius_of_obs**2)
+
+    for ob_coord in obstacle_coords:
+        dis = calc_distance(point, ob_coord)
+
+        if (dis <= max_obstacle_dis):
+            # calculate angle btw this point and obstacle point
+            theta = math.acos(abs(point[0]-ob_coord[0])/dis)
+            # calculate length of hypotenuse
+            hypot = radius_of_obs/math.cos(theta)
+            # if hypotenuse >= dis --> this point intersects with an obstacle
+            if hypot >= dis:
+                return 0
+    return 1
+
+
+def calc_distance(p1,p2):
+    return math.sqrt((p2[0]-p1[0])**2 + (p2[1]-p1[1])**2)
+
+
+def make_eq(p1, p2):
+    m = (p2[1]-p1[1])/(p2[0]-p1[0])
+    b = p1[1]-(m*p1[0])
+    return m, b
