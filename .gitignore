@@ -1,3 +1,6 @@
+/data
+/datasets*
+/logs*
 /env*
 /checkpoints*
 /logs*
@@ -9,4 +12,6 @@
 /output/*
 /smoothened_paths*
 /wandb*
+/inputs/*
+/benchmark/*
 datasets/*
