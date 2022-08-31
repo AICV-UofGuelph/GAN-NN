@@ -30,7 +30,7 @@ class Critic(nn.Module):
         )
 
         self.block5 = nn.Sequential(
-            nn.Conv2d(f[4], 1, k[4], s[4], p[4], device=device, bias=False)
+            nn.Conv2d(f[4], f[5], k[4], s[4], p[4], device=device, bias=False)
         )
 
     def forward(self, x):
@@ -101,7 +101,7 @@ class Generator(nn.Module):
         )
         
         self.block10 = nn.Sequential(
-            nn. ConvTranspose2d(f[9], 1, k[9], s[9], p[9], device=device),
+            nn. ConvTranspose2d(f[9], f[10], k[9], s[9], p[9], device=device),
             nn.Sigmoid()
         )
 
