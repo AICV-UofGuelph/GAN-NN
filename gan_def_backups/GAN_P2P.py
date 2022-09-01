@@ -137,7 +137,7 @@ class Generator(nn.Module):
         # Final output layer
         self.out = nn.Sequential(
             nn.ConvTranspose2d(f[15]+f[1], f[16], 4, 2, 1, device=device),
-            nn.Sigmoid()
+            nn.Tanh()
         )
 
     
@@ -218,7 +218,15 @@ class Generator(nn.Module):
 
     def _round(self, mat):
         # TODO: cite something? (this function is based off of Thor's code)
-        mat_hard = torch.round(mat)
-        mat = (mat_hard - mat.data) + mat
 
+        paths = mat[:,:1,:,:]
+        maps = mat[:,-1:,:,:]
+
+        # Confine path to [0,1] then round
+        paths = paths + 1
+        paths = paths / 2
+        paths_hard = torch.round(paths)
+        paths = (paths_hard - paths.data) + paths
+
+        mat = torch.concat((paths, maps), axis=1)
         return mat
