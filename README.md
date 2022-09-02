@@ -2,22 +2,40 @@
 
 - GAN.py: Stores GAN class definition so it can be easily loaded later.
 
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+# gan_def_backups
+
+GAN Type | Definition File | Training Notebook
+:------: | :-------------: | :---------------:
+AutoEncoder | GAN_AutoEnc.py | WGAN-GP.ipynb
+Pix2Pix | GAN_P2P.py | Pix2Pix.ipynb
+
+
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
 # WGAN-GP.ipynb
-
 ## Purpose
-Creates and trains a Wasserstein GAN with gradient penalty. Trains on pre-generated path data and frequently saves a checkpoint of the model's parameters. Records data about each run using Weights and Biases.
+Configured for Gans in which the generator has the structure of an autoencoder with 3 input channels. Creates and trains a Wasserstein GAN with gradient penalty. Trains on pre-generated path data and frequently saves a checkpoint of the model's parameters. Records data about each run using Weights and Biases.
 
 ## Steps
 1. Make sure any datasets you wish to use are present and follow the specified directory structure
 2. Configure the training run using the provided constants
 3. Run WGAN-GP.ipynb
 
-## Changing Variables
-### NOT SURE WHERE TO PUT THESE
+## Constants
+### I/O Config
+- ```RECORD_METRICS```: [Boolean] Whether or not the run will be logged on WandB and checkpoints saved
 - ```DATASET```: [String] The dataset to load
 - ```SUBSET```: [String] The subset to load (e.g. training, evaluation)
+- ```MAP_SHAPE```: [Tuple of ints] The dimensions of the map(s) being provided as input
+
+### Run Configuration
+- ```NUM_EPOCHS```: [int] The number of epochs to train for
+- ```BATCH_SIZE```: [int] Number of items from the dataset in each batch
+- ```CRIT_ITERATIONS```: [int] How many times the critic will update its parameters for each update of the generator
+- ```LR_CRIT```: [Float] The critic's learning rate
+- ```LR_GEN```: [Float] The generator's learning rate
+- ```LAMBDA```: [Float or int] The coefficient of the gradient penalty term
 
 ### Critic Structure
 - ```NUM_LAYERS_CRIT```: [int] Number of layers in the critic
@@ -33,14 +51,10 @@ Creates and trains a Wasserstein GAN with gradient penalty. Trains on pre-genera
 - ```PAD_GEN```: [List of ints] Padding for each layer of the generator
 - ```FEATURES_GEN```: [List of ints] Number of input channels for each layer of the generator
 
-### Misc. Hyperparameters and Config
-- ```BATCH_SIZE```: [int] Number of items from the dataset in each batch
-- ```LR_CRIT```: [Float] The critic's learning rate
-- ```LR_GEN```: [Float] The generator's learning rate
-- ```CRIT_ITERATIONS```: [int] How many times the critic will update its parameters for each update of the generator
-- ```LAMBDA```: [Float or int] The coefficient of the gradient penalty term
-- ```NUM_EPOCHS```: [int] The number of epochs to train for
-- ```MAP_SHAPE```: [Tuple of ints] The dimensions of the map(s) being provided as input
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+# 
+
 
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
@@ -74,6 +88,10 @@ A module containing methods for saving/loading data associated with the GAN. Fun
 ## Steps
 1. Import into your python script
 2. Use the appropriate function to retrieve or store data
+
+## Constants
+- ```INPUTS_DIR```: [String] The name of the folder to use as the root directory when searching for input
+- ```CHKPTS_DIR```: [String] The name of the folder to use as the root directory when saving GAN definitions and checkpoints
 
 
 
