@@ -6,8 +6,8 @@ import numpy as np
 import torch
 import skfmm
 
-INPUTS_DIR = 'datasets'
-CHKPT_DIR = 'checkpoints'
+INPUTS_DIR = 'datasets' # Name of folder in root that contains the datasets
+CHKPT_DIR = 'checkpoints' # Name of the folder in root that contains the model checkpoints, def'n, checkpoints
 
 # ASSUME: all maps in subset have same dimensions
 
@@ -86,17 +86,18 @@ def load_paths(paths_dir, map_shape=None):
                         path_mat[y,x1] = 1
                         y += y_dir
             
+            # This code connects start and end point with a straight line
             # Create endpoints matrix
             end_mat[path[0,1],path[0,0]] = 2                                   # Set first point in the path to 2
             end_mat[path[path.shape[0]-1,1], path[path.shape[0]-1,0]] = 2      # Include the last point in the path as 2
 
             x = path[0,0]
-            x1 = path[0,0]
-            x2 = path[path.shape[0]-1,0]
+            x1 = path[0,0] # first x
+            x2 = path[path.shape[0]-1,0] # last x
 
             y = path[0,1]
-            y1 = path[0,1]
-            y2 = path[path.shape[0]-1,1]
+            y1 = path[0,1] # first y
+            y2 = path[path.shape[0]-1,1] # last y
 
             if (x1 < x2):
                 x_dir = 1
@@ -145,9 +146,9 @@ def load_paths(paths_dir, map_shape=None):
                     y += y_dir
 
             # Combine the two matrices
-            path_mat = path_mat[np.newaxis,:,:]
-            end_mat = end_mat[np.newaxis,:,:]
-            path = np.concatenate((path_mat, end_mat), axis=0)
+            path_mat = path_mat[np.newaxis,:,:] # matrix with real path that is now continuous
+            end_mat = end_mat[np.newaxis,:,:] # end points
+            path = np.concatenate((path_mat, end_mat), axis=0) # concat to give a matrix with continuous path (1 layer) and the endpoints are 2s w/ 1s connecting in straight line (other layer)
 
         loaded.append(path)
 
@@ -163,8 +164,8 @@ def load_map(map_file, sdf=False):
 
     # Apply signed distance function
     if sdf:
-        obs_map *= -1
-        obs_map[obs_map == 0] = 1
+        obs_map *= -1 # obstacles are -1
+        obs_map[obs_map == 0] = 1 # ... and free space is 1
         obs_map = skfmm.distance(obs_map, dx = 0.1)
     
     obs_map = obs_map[:, :]
@@ -180,14 +181,14 @@ def load_input(dataset, subset):
     
     maps = os.scandir(set_dir)
     for item in maps:
-        path_dir = os.path.join(item.path, 'paths')
+        path_dir = os.path.join(item.path, 'paths') # for a paths folder for one map
         if os.path.isdir(path_dir):
             obs_map = load_map(os.path.join(item.path, f'{item.name}.txt'), sdf=True)
             paths = load_paths(os.path.join(item.path, 'paths'), obs_map.shape)
 
-            for i in range(len(paths)):
-                path = np.concatenate((paths[i], obs_map[np.newaxis, :, :]), axis=0)
-                path = torch.tensor(path, dtype=torch.float)
+            for i in range(len(paths)): # for all the paths for the single map
+                path = np.concatenate((paths[i], obs_map[np.newaxis, :, :]), axis=0) # adding map to path 
+                path = torch.tensor(path, dtype=torch.float) # and making it a tensor
                 loaded.append(path)
 
     return loaded
@@ -219,13 +220,14 @@ def load_checkpoint(run_name, step_num):
 
 
 def save_gan(run_name, config):
+    """Saves the model and config. Training notebook usually calls this once at beginning (if record metric == true)"""
     save_dir = os.path.join(os.getcwd(), CHKPT_DIR, run_name)
     if not os.path.isdir(save_dir):
         os.makedirs(save_dir)
 
     # Save model structure and hyperparams
-    shutil.copy(os.path.join(os.getcwd(), 'GAN.py'), os.path.join(save_dir, 'GAN.py'))
-    torch.save(config, os.path.join(save_dir, 'hparams.pkl'))
+    shutil.copy(os.path.join(os.getcwd(), 'GAN.py'), os.path.join(save_dir, 'GAN.py')) # will copy GAN.py from root to the save directory
+    torch.save(config, os.path.join(save_dir, 'hparams.pkl')) # saves 
 
 def save_checkpoint(run_name, step, gen, crit):
     # Navigate to destination directory
