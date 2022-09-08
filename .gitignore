@@ -9,3 +9,5 @@
 /output/*
 /smoothened_paths*
 /wandb*
+/datasets*
+/gan_defs_backup*
