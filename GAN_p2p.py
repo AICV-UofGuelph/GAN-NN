@@ -103,6 +103,7 @@ class Critic(nn.Module):
         return y
 
 
+
 class Generator(nn.Module):
     def __init__(self, f, k, s, p, device='cpu'):
         super(Generator, self).__init__()
@@ -214,9 +215,10 @@ class Generator(nn.Module):
         y = self._round(y)
         return y
     
+
     def _round(self, mat):
         # TODO: cite something? (this function is based off of Thor's code)
-        mat_hard = torch.round(mat) # we have lost graient here
-        mat = (mat_hard - mat.data) + mat # subtract non rounded (no grad) from rounded (no grad) + non rounded (w grad) gives rounded w grad
+        mat_hard = torch.round(mat)
+        mat = (mat_hard - mat.data) + mat
 
         return mat
