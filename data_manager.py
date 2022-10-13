@@ -210,8 +210,8 @@ def load_gan(run_name):
     config = torch.load(os.path.join(run_dir, 'hparams.pkl'))
     return config
 
-def load_checkpoint(run_name, step_num):
-    cp_file = os.path.join(os.getcwd(), CHKPT_DIR, run_name, 'cp', f'{step_num}.tar')
+def load_checkpoint(run_name, step_num, loc):
+    cp_file = os.path.join(loc, CHKPT_DIR, run_name, 'cp', f'{step_num}.tar')
     if not os.path.isfile(cp_file):
         return None
     
@@ -229,9 +229,9 @@ def save_gan(run_name, config):
     shutil.copy(os.path.join(os.getcwd(), 'GAN.py'), os.path.join(save_dir, 'GAN.py')) # will copy GAN.py from root to the save directory
     torch.save(config, os.path.join(save_dir, 'hparams.pkl')) # saves 
 
-def save_checkpoint(run_name, step, gen, crit):
+def save_checkpoint(run_name, step, gen, crit, loc):
     # Navigate to destination directory
-    save_path = os.path.join(os.getcwd(), CHKPT_DIR, run_name, 'cp')
+    save_path = os.path.join(loc, CHKPT_DIR, run_name, 'cp')
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
     save_path = os.path.join(save_path, f'{step}.tar')
